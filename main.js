@@ -1,4 +1,4 @@
-// js/main.js
+// main.js
 
 const db = {
     users: [],
@@ -51,23 +51,59 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     }
 });
 
+const subCategories = {
+    'Academic': {
+        'Exams': ['Midterm', 'Final'],
+        'Grades': ['Assignments', 'Exams'],
+        'Assignments': ['Homework', 'Project'],
+        'Courses': ['Mathematics', 'Science']
+    },
+    'Campus': {
+        'Hostel': ['Room Issues', 'Facilities'],
+        'Canteen': ['Food Quality', 'Service'],
+        'Mess': ['Food Quality', 'Hygiene']
+    },
+    'Health': {
+        'Medical Facilities': ['General Check-up', 'Emergency Services'],
+        'Counseling Services': ['Mental Health', 'Career Counseling'],
+        'Health Records': ['Vaccination', 'Medical History']
+    }
+};
+
 document.getElementById('category').addEventListener('change', function(event) {
     const subCategorySelect = document.getElementById('sub-category');
     subCategorySelect.innerHTML = '<option value="" disabled selected>Select Subcategory</option>';
+    document.getElementById('sub-sub-category').classList.add('hidden');
+    document.getElementById('sub-sub-category').innerHTML = '<option value="" disabled selected>Select Sub-Subcategory</option>';
+
     const category = event.target.value;
-    const subCategories = {
-        'Academic': ['Exams', 'Grades', 'Assignments', 'Courses'],
-        'Campus': ['Housing', 'Cafeteria', 'Facilities', 'Transport'],
-        'Administrative': ['Enrollment', 'Financial Aid', 'Student Records'],
-        'Health': ['Medical Facilities', 'Counseling Services', 'Health Records']
-    };
     if (subCategories[category]) {
-        subCategories[category].forEach(option => {
+        Object.keys(subCategories[category]).forEach(subCategory => {
             const opt = document.createElement('option');
-            opt.value = option;
-            opt.textContent = option;
+            opt.value = subCategory;
+            opt.textContent = subCategory;
             subCategorySelect.appendChild(opt);
         });
+    }
+});
+
+document.getElementById('sub-category').addEventListener('change', function(event) {
+    const subSubCategorySelect = document.getElementById('sub-sub-category');
+    subSubCategorySelect.innerHTML = '<option value="" disabled selected>Select Sub-Subcategory</option>';
+
+    const category = document.getElementById('category').value;
+    const subCategory = event.target.value;
+
+    if (subCategories[category] && subCategories[category][subCategory]) {
+        subCategories[category][subCategory].forEach(subSubCategory => {
+            const opt = document.createElement('option');
+            opt.value = subSubCategory;
+            opt.textContent = subSubCategory;
+            subSubCategorySelect.appendChild(opt);
+        });
+        subSubCategorySelect.classList.remove('hidden');
+    } else {
+        subSubCategorySelect.classList.add('hidden');
     }
 });
 
@@ -77,20 +113,24 @@ document.getElementById('issue-form').addEventListener('submit', function(event)
     const studentId = document.getElementById('student-id').value;
     const category = document.getElementById('category').value;
     const subCategory = document.getElementById('sub-category').value;
+    const subSubCategory = document.getElementById('sub-sub-category').value;
     const comment = document.getElementById('comment').value;
 
-    const issue = { studentName, studentId, category, subCategory, comment };
+    const issue = { studentName, studentId, category, subCategory, subSubCategory, comment };
     db.issues.push(issue);
 
     const issueList = document.getElementById('issue-list');
     const issueItem = document.createElement('li');
-    issueItem.textContent = `Name: ${studentName}, Student ID: ${studentId}, Category: ${category}, Subcategory: ${subCategory}, Comment: ${comment}`;
+    issueItem.textContent = `Name: ${studentName}, Student ID: ${studentId}, Category: ${category}, Subcategory: ${subCategory}, Sub-Subcategory: ${subSubCategory}, Comment: ${comment}`;
     issueList.appendChild(issueItem);
 
     const adminIssueList = document.getElementById('admin-issue-list');
     const adminIssueItem = document.createElement('li');
-    adminIssueItem.textContent = `Name: ${studentName}, Student ID: ${studentId}, Category: ${category}, Subcategory: ${subCategory}, Comment: ${comment}`;
+    adminIssueItem.textContent = `Name: ${studentName}, Student ID: ${studentId}, Category: ${category}, Subcategory: ${subCategory}, Sub-Subcategory: ${subSubCategory}, Comment: ${comment}`;
     adminIssueList.appendChild(adminIssueItem);
 
     document.getElementById('issue-form').reset();
+    document.getElementById('sub-category').innerHTML = '<option value="" disabled selected>Select Subcategory</option>';
+    document.getElementById('sub-sub-category').innerHTML = '<option value="" disabled selected>Select Sub-Subcategory</option>';
+    document.getElementById('sub-sub-category').classList.add('hidden');
 });
