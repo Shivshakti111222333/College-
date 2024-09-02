@@ -1,6 +1,5 @@
 // js/main.js
 
-// JSON "database" for users and issues
 const db = {
     users: [],
     issues: []
@@ -55,17 +54,15 @@ document.getElementById('login-form').addEventListener('submit', function(event)
 document.getElementById('category').addEventListener('change', function(event) {
     const subCategorySelect = document.getElementById('sub-category');
     subCategorySelect.innerHTML = '<option value="" disabled selected>Select Subcategory</option>';
-    if (event.target.value === 'Academic') {
-        const options = ['Exams', 'Grades', 'Assignments'];
-        options.forEach(option => {
-            const opt = document.createElement('option');
-            opt.value = option;
-            opt.textContent = option;
-            subCategorySelect.appendChild(opt);
-        });
-    } else if (event.target.value === 'Campus') {
-        const options = ['Housing', 'Cafeteria', 'Facilities'];
-        options.forEach(option => {
+    const category = event.target.value;
+    const subCategories = {
+        'Academic': ['Exams', 'Grades', 'Assignments', 'Courses'],
+        'Campus': ['Housing', 'Cafeteria', 'Facilities', 'Transport'],
+        'Administrative': ['Enrollment', 'Financial Aid', 'Student Records'],
+        'Health': ['Medical Facilities', 'Counseling Services', 'Health Records']
+    };
+    if (subCategories[category]) {
+        subCategories[category].forEach(option => {
             const opt = document.createElement('option');
             opt.value = option;
             opt.textContent = option;
