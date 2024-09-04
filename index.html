@@ -8,10 +8,9 @@
 </head>
 <body>
     <header>
-        <h1>Campus Issue Reporting System</h1>
+        <h1>Campus Issue Reporting</h1>
     </header>
     <main>
-        <!-- Login Section -->
         <section id="login-section">
             <h2>Login</h2>
             <form id="login-form">
@@ -29,7 +28,6 @@
             </p>
         </section>
 
-        <!-- Registration Section -->
         <section id="register-section" class="hidden">
             <h2>Create New Account</h2>
             <form id="register-form">
@@ -45,40 +43,31 @@
             <p>Already have an account? <a href="#" id="show-login">Login</a></p>
         </section>
 
-        <!-- Issue Reporting Section -->
         <section id="issue-section" class="hidden">
             <h2>Report an Issue</h2>
             <form id="issue-form">
                 <input type="text" id="student-name" placeholder="Name" required />
                 <input type="text" id="student-id" placeholder="Student ID" required />
-                
-                <!-- Issue Category -->
-                <select id="issue-category" required>
+                <select id="category" required>
                     <option value="" disabled selected>Select Category</option>
-                    <option value="academic">Academic</option>
-                    <option value="campus">Campus</option>
-                    <option value="health">Health</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Campus">Campus</option>
+                    <option value="Health">Health</option>
                 </select>
-
-                <!-- Subcategory for issues -->
-                <select id="issue-subcategory" required class="hidden">
+                <select id="sub-category" required>
                     <option value="" disabled selected>Select Subcategory</option>
                 </select>
-
-                <!-- Further Subcategory for issues -->
-                <select id="issue-subsubcategory" required class="hidden">
+                <select id="sub-sub-category" required class="hidden">
                     <option value="" disabled selected>Select Sub-Subcategory</option>
                 </select>
-
-                <textarea id="issue-description" placeholder="Describe the issue" required></textarea>
+                <textarea id="comment" placeholder="Describe the issue" required></textarea>
                 <button type="submit">Submit</button>
             </form>
 
             <h2>Reported Issues</h2>
-            <ul id="reported-issue-list"></ul>
+            <ul id="issue-list"></ul>
         </section>
 
-        <!-- Admin Dashboard Section -->
         <section id="admin-section" class="hidden">
             <h2>Admin Dashboard</h2>
             <ul id="admin-issue-list"></ul>
@@ -87,3 +76,4 @@
     <script src="main.js"></script>
 </body>
 </html>
+
